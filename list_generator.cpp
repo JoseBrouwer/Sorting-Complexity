@@ -22,13 +22,13 @@ void write_list(vector<int> Arr, int list_num)
     ofstream file;
     string file_name = "list" + to_string(list_num) + ".txt";
     file.open(file_name, ios::app); // append to file
-    file << "A: [ "; // A: [ Arr[0], Arr[1], Arr[2], ...
+    file << "A: ["; // A: [ Arr[0], Arr[1], Arr[2], ...
     for(int i = 0; i < Arr.size(); i++)
     {
         if(i == Arr.size() - 1)
-            file << Arr[i] << " ]" << endl;
+            file << Arr[i] << "]" << endl;
         else
-            file << Arr[i] << ", ";
+            file << Arr[i] << ",";
     }
     file.close();
 }

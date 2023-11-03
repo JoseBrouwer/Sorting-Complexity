@@ -10,11 +10,20 @@ all: list_generator
 list_generator: list_generator.cpp
 	$(CXX) $(CXXFLAGS) -o list_generator list_generator.cpp
 
+insertion_sort: insertion_sort.cpp
+	$(CXX) $(CXXFLAGS) -o insertion_sort insertion_sort.cpp
+
 clean:
 	rm -f list_generator
 
-run: list_generator
+run_gen: list_generator
 	./list_generator
+
+run insert: list_generator
+	./list_generator
+	for size in $(LIST_SIZES); do \
+		./insertion_sort list$${size}.txt; \
+	done
 
 clean_data:
 	for size in $(LIST_SIZES); do \
