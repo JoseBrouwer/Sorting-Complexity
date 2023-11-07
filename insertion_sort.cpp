@@ -33,14 +33,20 @@ int main()
     cin >> inputFileName;
     cout << endl;
 
-    outputFileName = "ins_time_" + inputFileName;
+    outputFileName = "insertion_sort_times.txt";
 
     // Open the input file
-    ifstream inputFile(inputFileName);
+    ifstream inputFile(inputFileName); // open the file
+    ofstream outputFile(outputFileName, ios::app); // append to file
 
     if (!inputFile)
     {
         cerr << "Error: Unable to open input file." << endl;
+        return 1;
+    }
+    else if (!outputFile)
+    {
+        cerr << "Error: Unable to open output file." << endl;
         return 1;
     }
 
@@ -54,7 +60,7 @@ int main()
     while(inputFile)
     {
         cout << "in while loop" << endl;
-
+        outputFile << "-------LIST: " << inputFileName << " SORTED-------" <<endl;
         // Read the array elements one string at a time
         cout << "before reading num" << endl;
         while (inputFile >> num)
@@ -114,20 +120,19 @@ int main()
                     0.000001 milliseconds
                     0.000001 seconds
                 */
-                ofstream outputFile(outputFileName, ios::app);
+                
                 outputFile << "Array " << array_num << ": " << endl;
                 outputFile << "Sorting Time: \n\t" << micro.count() << " microseconds \n";
                 outputFile << "\t" << milli.count() << " milliseconds \n";
-                outputFile << "\t" << seconds.count() << " seconds\n"
-                           << endl;
-                outputFile.close();
+                outputFile << "\t" << seconds.count() << " seconds\n" << endl;
 
                 array_num++; // Increment the array number for the output file
             }
         }
         
     }
-    // Close the input file
+    // Close the input & output file
     inputFile.close();
+    outputFile.close();
     return 0;
 }

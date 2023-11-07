@@ -26,10 +26,10 @@ run insert: list_generator
 		./insertion_sort list$${size}.txt; \
 	done
 
+#rm -f insertion_sort_times.txt;
 clean_data:
 	for size in $(LIST_SIZES); do \
 		rm -f list$${size}.txt; \
-		rm -f time_list$${size}.txt; \
 	done
 
 .PHONY: all clean run clean_data
