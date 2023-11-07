@@ -6,18 +6,23 @@
 
 using namespace std;
 
-
-vector<int> generate_list(int size)
+vector<unsigned int> generate_list(int size)
 {
-    vector<int> Arr;
-    for(int i = 0; i < size; i++)
-        Arr.push_back(rand() % 100);
+    vector<unsigned int> Arr;
+    random_device rd;                // Create a random device
+    default_random_engine gen(rd()); // Create a default random engine
+    uniform_int_distribution<unsigned int> dis(0, numeric_limits<unsigned int>::max());
+
+    for (int i = 0; i < size; i++)
+    {
+        Arr.push_back(dis(gen));
+    }
     return Arr;
 }
 
 // write list to file
 // different file for each list size 
-void write_list(vector<int> Arr, int list_num) 
+void write_list(vector<unsigned int> Arr, int list_num) 
 {
     ofstream file;
     string file_name = "list" + to_string(list_num) + ".txt";
