@@ -33,7 +33,7 @@ int main()
     cin >> inputFileName;
     cout << endl;
 
-    outputFileName = "time_" + inputFileName;
+    outputFileName = "ins_time_" + inputFileName;
 
     // Open the input file
     ifstream inputFile(inputFileName);
