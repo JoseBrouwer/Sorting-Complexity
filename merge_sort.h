@@ -1,9 +1,8 @@
-#include <iostream>
-#include <fstream>
+#ifndef MERGE_SORT_H
+#define MERGE_SORT_H
+
 #include <vector>
-#include <string>
-#include <cctype>
-#include <chrono>
+#include <limits>
 
 using namespace std;
 
@@ -27,7 +26,7 @@ void merge(vector<unsigned int> &Arr, int p, int q, int r)
     // merge the subarrays
     int i = 0;
     int j = 0;
-    for(int k = p; k<r; k++)
+    for(int k = p; k<=r; k++)
     {
         if(L[i] <= R[j])
         {
@@ -52,3 +51,5 @@ void merge_sort(vector<unsigned int> &Arr, int p, int r)
         merge(Arr, p, q, r);
     }
 }
+
+#endif // MERGE_SORT_H

@@ -4,6 +4,9 @@
 #include <string>
 #include <chrono>
 #include <limits>
+#include "insertion_sort.h"
+#include "merge_sort.h"
+#include "heap_sort.h"
 
 using namespace std;
 
@@ -14,6 +17,7 @@ int main()
         // Specify the input and output file names
         string inputFileName;
         string outputFileName;
+        string sortingName;
 
         cout << "Enter the file name to sort (type 'quit' to exit / type 'help' for guidance): ";
         cin >> inputFileName;
@@ -40,21 +44,46 @@ int main()
             continue; // Skip the rest of the loop and prompt for a new file
         }
 
-        // Determine the output file name based on the selected sorting algorithm
-        // You may need to modify this based on your naming convention
-        outputFileName = inputFileName + "_times.txt";
-
-        // Open the input file
-        ifstream inputFile(inputFileName);
-        ofstream outputFile(outputFileName, ios::app);
-
         // Check if the input file is opened successfully
+        ifstream inputFile(inputFileName);
         if (!inputFile)
         {
             cerr << "Error: Unable to open input file." << endl;
             continue; // Skip the rest of the loop and prompt for a new file
         }
-        else if (!outputFile)
+
+        cout << "Enter the sorting algorithm to use (type 'help' for guidance): ";
+        cin >> sortingName;
+        cout << endl;
+        if (sortingName == "quit")
+        {
+            break; // Exit the loop if the user enters 'quit'
+        }
+        else if(sortingName == "help")
+        {
+            cout << "The algorithm should be typed as follows (just the name): " << endl;
+            cout << "1 - insertion_sort" << endl;
+            cout << "2 - merge_ssort" << endl;
+            cout << "3 - quick_sort" << endl;
+            cout << "4 - heap_sort" << endl;
+            cout << "5 - radix_sort" << endl;
+            cout << "6 - counting_sort" << endl;
+            cout << "7 - bucket_sort" << endl;
+            cout << endl;
+            continue; // Skip the rest of the loop and prompt for a new file
+        }
+        else if(sortingName != "insertion_sort" && sortingName != "merge_sort" 
+        && sortingName != "quick_sort" && sortingName != "heap_sort" && sortingName != "radix_sort"
+        && sortingName != "counting_sort" && sortingName != "bucket_sort")
+        {
+            cout << "Invalid algorithm name. Start over." << endl;
+            continue; // Skip the rest of the loop and prompt for a new file
+        }
+
+        // Determine the output file name based on the selected sorting algorithm
+        outputFileName = sortingName + "_times.txt";
+        ofstream outputFile(outputFileName, ios::app);
+        if (!outputFile)
         {
             cerr << "Error: Unable to open output file." << endl;
             return 1;
@@ -102,19 +131,17 @@ int main()
                 if (Arr.size() > 0)
                 {
                     auto start = chrono::high_resolution_clock::now(); // Start the timer
-                    if (inputFileName == "insertion_sort")
+                    if (sortingName == "insertion_sort")
                     {
-                        // insertion_sort(Arr); // Sort the array using insertion sort
+                        insertion_sort(Arr); // Sort the array using insertion sort
                     }
-                    else if(inputFileName == "merge_sort")
+                    else if(sortingName == "merge_sort")
                     {
-                        //merge_sort(Arr);  // Sort the array using merge sort
+                        merge_sort(Arr, 0, Arr.size()-1); //merge_sort(Arr, p, r);  // Sort the array using merge sort
                     }
-                    //REST OF CASES HERE
-                    else
+                    else if(sortingName == "heap_sort")
                     {
-                        cout << "Invalid algorithm name." << endl;
-                        break;
+                        heap_sort(Arr); // Sort the array using heap sort
                     }
                     auto stop = chrono::high_resolution_clock::now();
                     auto micro = chrono::duration_cast<chrono::microseconds>(stop - start);
