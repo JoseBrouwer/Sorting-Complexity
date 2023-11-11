@@ -23,6 +23,23 @@ void merge(vector<unsigned int> &Arr, int p, int q, int r)
     }
     L.push_back(numeric_limits<unsigned int>::max());
     R.push_back(numeric_limits<unsigned int>::max());
+
+    // merge the subarrays
+    int i = 0;
+    int j = 0;
+    for(int k = p; k<r; k++)
+    {
+        if(L[i] <= R[j])
+        {
+            Arr[k] = L[i];
+            i++;
+        }
+        else
+        {
+            Arr[k] = R[j];
+            j++;
+        }
+    }
 }
 
 void merge_sort(vector<unsigned int> &Arr, int p, int r)

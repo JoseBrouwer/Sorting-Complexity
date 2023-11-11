@@ -23,7 +23,7 @@ void insertion_sort(vector<unsigned int> &Arr)
     }
 }
 
-int main()
+int main() //modify to keep taking file names and sorting until user quits
 {
 
     // Specify the input and output file names
@@ -41,8 +41,14 @@ int main()
 
     if (!inputFile)
     {
-        cerr << "Error: Unable to open input file." << endl;
-        return 1;
+        while(!inputFile)
+        {
+            cerr << "Error: Unable to open input file." << endl;
+            cout << "\nEnter the file name to sort: ";
+            cin >> inputFileName;
+            cout << endl;
+            inputFile.open(inputFileName); // open the file
+        }
     }
     else if (!outputFile)
     {
@@ -87,7 +93,8 @@ int main()
                 }
             }
             
-
+            //remove array printing and move timing into its own function
+            //Also move the outputFile writing to the function
             if(Arr.size() > 0)
             {
                 auto start = chrono::high_resolution_clock::now(); // Start the timer
