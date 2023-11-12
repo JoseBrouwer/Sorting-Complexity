@@ -1,1 +1,4 @@
 *.txt
+driver
+list_generator
+.vscode/c_cpp_properties.json

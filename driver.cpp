@@ -7,8 +7,23 @@
 #include "insertion_sort.h"
 #include "merge_sort.h"
 #include "heap_sort.h"
+#include "quick_sort.h"
+#include "counting_sort.h"
+#include "radix_sort.h"
+#include "bucket_sort.h"
 
 using namespace std;
+
+int get_max(vector<int> &Arr)
+{
+    int max = Arr[0];
+    for(int i = 1; i < Arr.size(); i++)
+    {
+        if(Arr[i] > max)
+            max = Arr[i];
+    }
+    return max;
+}
 
 int main()
 {
@@ -89,8 +104,8 @@ int main()
             return 1;
         }
 
-        // Rest of your code (reading array, sorting, and writing to the output file)
-        vector<unsigned int> Arr;
+        vector<int> Arr;
+        vector<float> Arr2;
         string num;
         int array_num = 0; // for output file array listing
 
@@ -130,23 +145,63 @@ int main()
                 // Also move the outputFile writing to the function
                 if (Arr.size() > 0)
                 {
-                    auto start = chrono::high_resolution_clock::now(); // Start the timer
+                    //for use in instances where work must be done before the timer starts
+                    //For example, counting sort needs to find the max value in the array
+                    std::chrono::time_point<std::chrono::high_resolution_clock> temp;
                     if (sortingName == "insertion_sort")
                     {
+                        auto start = chrono::high_resolution_clock::now(); // Start the timer
                         insertion_sort(Arr); // Sort the array using insertion sort
+                        temp = start;
                     }
                     else if(sortingName == "merge_sort")
                     {
+                        auto start = chrono::high_resolution_clock::now(); // Start the timer
                         merge_sort(Arr, 0, Arr.size()-1); //merge_sort(Arr, p, r);  // Sort the array using merge sort
+                        temp = start;
                     }
                     else if(sortingName == "heap_sort")
                     {
+                        auto start = chrono::high_resolution_clock::now(); // Start the timer
                         heap_sort(Arr); // Sort the array using heap sort
+                        temp = start;
+                    }
+                    else if(sortingName == "quick_sort")
+                    {
+                        auto start = chrono::high_resolution_clock::now(); // Start the timer
+                        quick_sort(Arr, 0, Arr.size()-1); // Sort the array using quick sort
+                        temp = start;
+                    }
+                    else if(sortingName == "counting_sort")
+                    {
+                        int max = get_max(Arr);
+                        auto start = chrono::high_resolution_clock::now(); // Start the timer
+                        counting_sort(Arr, max); // Sort the array using counting sort
+                        temp = start;
+                    }
+                    else if(sortingName == "radix_sort")
+                    {
+                        auto start = chrono::high_resolution_clock::now(); // Start the timer
+                        radix_sort(Arr); // Sort the array using radix sort
+                        temp = start;
+                    }
+                    //chose a float array text file
+                    else if(sortingName == "bucket_sort" && inputFileName.find("float") != string::npos)
+                    {
+                        auto start = chrono::high_resolution_clock::now(); // Start the timer
+                        bucket_sort(Arr2); // Sort the array using bucket sort
+                        temp = start;
+                    }
+                    //did not choose a float array text file
+                    else if(sortingName == "bucket_sort" && inputFileName.find("float") == string::npos)
+                    {
+                        cout << "Bucket sort requires a float array. Start over." << endl;
+                        break;
                     }
                     auto stop = chrono::high_resolution_clock::now();
-                    auto micro = chrono::duration_cast<chrono::microseconds>(stop - start);
-                    auto milli = chrono::duration_cast<chrono::milliseconds>(stop - start);
-                    auto seconds = chrono::duration_cast<chrono::seconds>(stop - start);
+                    auto micro = chrono::duration_cast<chrono::microseconds>(stop - temp);
+                    auto milli = chrono::duration_cast<chrono::milliseconds>(stop - temp);
+                    auto seconds = chrono::duration_cast<chrono::seconds>(stop - temp);
 
                     cout << "Array Sorted!" << endl;
                     cout << "Sorted A: [";

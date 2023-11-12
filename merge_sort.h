@@ -6,12 +6,12 @@
 
 using namespace std;
 
-void merge(vector<unsigned int> &Arr, int p, int q, int r)
+void merge(vector<int> &Arr, int p, int q, int r)
 {
     int n1 = q - p + 1; //size of left subarray
     int n2 = r - q; //size of right subarray
-    vector<unsigned int> L;
-    vector<unsigned int> R;
+    vector<int> L;
+    vector<int> R;
     for(int i = 0; i < n1; i++)
     {
         L.push_back(Arr[p + i]);
@@ -20,8 +20,8 @@ void merge(vector<unsigned int> &Arr, int p, int q, int r)
     {
         R.push_back(Arr[q + j + 1]);
     }
-    L.push_back(numeric_limits<unsigned int>::max());
-    R.push_back(numeric_limits<unsigned int>::max());
+    L.push_back(numeric_limits<int>::max());
+    R.push_back(numeric_limits<int>::max());
 
     // merge the subarrays
     int i = 0;
@@ -41,7 +41,7 @@ void merge(vector<unsigned int> &Arr, int p, int q, int r)
     }
 }
 
-void merge_sort(vector<unsigned int> &Arr, int p, int r)
+void merge_sort(vector<int> &Arr, int p, int r)
 {
     if(p < r)
     {

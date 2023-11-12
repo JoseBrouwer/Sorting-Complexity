@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void heapify(vector<unsigned int> &Arr, int n, int i)
+void heapify(vector<int> &Arr, int n, int i)
 {
     int largest = i;
     int l = 2 * i + 1;
@@ -23,7 +23,7 @@ void heapify(vector<unsigned int> &Arr, int n, int i)
     }
 }
 
-void build_heap(vector<unsigned int> &Arr)
+void build_heap(vector<int> &Arr)
 {
     for(int i = (Arr.size() / 2) - 1; i >= 0; i--)
     {
@@ -31,7 +31,7 @@ void build_heap(vector<unsigned int> &Arr)
     }
 }
 
-void heap_sort(vector<unsigned int> &Arr)
+void heap_sort(vector<int> &Arr)
 {
     build_heap(Arr);
     for(int i = Arr.size() - 1; i >= 0; i--)

@@ -10,18 +10,19 @@ all: list_generator driver
 list_generator: list_generator.cpp
 	$(CXX) $(CXXFLAGS) -o list_generator list_generator.cpp
 
-driver: driver.cpp insertion_sort.h merge_sort.h heap_sort.h 
+driver: driver.cpp insertion_sort.h merge_sort.h heap_sort.h quick_sort.h counting_sort.h radix_sort.h bucket_sort.h
 	$(CXX) $(CXXFLAGS) -o driver driver.cpp
 
+run_gen: list_generator
+	./list_generator
+
+run_driver: driver
+	./driver < user_input.txt
 
 clean:
 	rm -f list_generator
 	rm -f driver
 
-run_gen: list_generator
-	./list_generator
-
-#rm -f insertion_sort_times.txt;
 clean_data:
 	for size in $(LIST_SIZES); do \
 		rm -f list$${size}.txt; \
