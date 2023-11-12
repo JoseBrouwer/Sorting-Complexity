@@ -1,0 +1,15 @@
+# Sorting Algorithm Analysis with C++ and Python
+- ## Complexity Analysis of Sorting Algorithms:
+- Insertion Sort
+- Merge Sort
+- Quick Sort
+- Heap Sort
+- Counting Sort
+- Bucket Sort
+- Radix Sort
+- ## Work Flow:
+- Each algorithm is implemented in a header file.
+- The driver program includes the headers and makes calls to the respective sorting function when indicated by the user
+- The algorithm is timed using the chrono library from the C++ STL
+- The timed results are outputted into a text file named as follows **sortingName_times.txt**
+- Python's matplotlib then plots the results
