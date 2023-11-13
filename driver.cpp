@@ -33,6 +33,7 @@ int main()
         string inputFileName;
         string outputFileName;
         string sortingName;
+        bool isFloat = false;
 
         cout << "Enter the file name to sort (type 'quit' to exit / type 'help' for guidance): ";
         cin >> inputFileName;
@@ -65,6 +66,10 @@ int main()
         {
             cerr << "Error: Unable to open input file." << endl;
             continue; // Skip the rest of the loop and prompt for a new file
+        }
+        if (inputFileName.find("float") != string::npos)
+        {
+            isFloat = true;
         }
 
         cout << "Enter the sorting algorithm to use (type 'help' for guidance): ";
@@ -113,37 +118,77 @@ int main()
         // Skip characters until the start of the array
         while (inputFile)
         {
-            cout << "in while loop" << endl;
+            //cout << "in while loop" << endl;
             outputFile << "-------LIST: " << inputFileName << " SORTED-------" << endl;
             // Read the array elements one string at a time
             cout << "before reading num" << endl;
             while (inputFile >> num)
             {
-                cout << "num is: " << num << endl;
+                // //cout << "num is: " << num << endl;
+                // if(num.length() == 2)
+                //     break;
+                //cout << "size of num: " << num.length() << endl;
                 string temp = ""; // to store the number
-                for (int i = 0; i < num.length(); i++)
+                // if the file opened is not a float file use Arr
+                if(isFloat == false)
                 {
-                    // If the character is a digit, add it to temp
-                    if (isdigit(num[i]))
+                    cout << "Parsing Integers" << endl;
+                    for (int i = 0; i < num.length(); i++)
                     {
-                        temp += num[i];
-                    }
-                    // If the character is a comma, convert temp to int and add it to Arr
-                    else if (num[i] == ',')
-                    {
-                        Arr.push_back(stoull(temp));
-                        temp = "";
-                    }
-                    else if (num[i] == ']')
-                    {
-                        Arr.push_back(stoull(temp));
-                        break;
+                        // If the character is a digit, add it to temp
+                        if (isdigit(num[i]))
+                        {
+                            temp += num[i];
+                        }
+                        // If the character is a comma, convert temp to int and add it to Arr
+                        else if (num[i] == ',')
+                        {
+                            Arr.push_back(stoi(temp));
+                            temp = "";
+                        }
+                        else if (num[i] == ']')
+                        {
+                            Arr.push_back(stoi(temp));
+                            break;
+                        }
                     }
                 }
+                // if the file opened is a float file use Arr2
+                else
+                {
+                    cout << "Parsing Floats" << endl;
+                    for (int i = 0; i < num.length(); i++)
+                    {
+                        // If the character is a digit, add it to temp
+                        if (isdigit(num[i]) || num[i] == '.')
+                        {
+                            temp += num[i];
+                        }
+                        // If the character is a comma, convert temp to int and add it to Arr
+                        else if (num[i] == ',')
+                        {
+                            Arr2.push_back(stof(temp));
+                            temp = "";
+                        }
+                        else if (num[i] == ']')
+                        {
+                            Arr2.push_back(stof(temp));
+                            break;
+                        }
+                    }
+                    // cout << "size of Arr2: " << Arr2.size() << endl;
+                    // cout << "contents of Arr2: ";
+                    // for(int i = 0; i < Arr2.size(); i++)
+                    // {
+                    //     cout << Arr2[i] << ",";
+                    // }
+                    // cout << endl;
+                }
+                
 
                 // remove array printing and move timing into its own function
                 // Also move the outputFile writing to the function
-                if (Arr.size() > 0)
+                if (Arr.size() > 0 || Arr2.size() > 0)
                 {
                     //for use in instances where work must be done before the timer starts
                     //For example, counting sort needs to find the max value in the array
@@ -186,14 +231,14 @@ int main()
                         temp = start;
                     }
                     //chose a float array text file
-                    else if(sortingName == "bucket_sort" && inputFileName.find("float") != string::npos)
+                    else if(sortingName == "bucket_sort" && isFloat == true)
                     {
                         auto start = chrono::high_resolution_clock::now(); // Start the timer
                         bucket_sort(Arr2); // Sort the array using bucket sort
                         temp = start;
                     }
                     //did not choose a float array text file
-                    else if(sortingName == "bucket_sort" && inputFileName.find("float") == string::npos)
+                    else if(sortingName == "bucket_sort" && isFloat == false)
                     {
                         cout << "Bucket sort requires a float array. Start over." << endl;
                         break;
@@ -204,20 +249,42 @@ int main()
                     auto seconds = chrono::duration_cast<chrono::seconds>(stop - temp);
 
                     cout << "Array Sorted!" << endl;
-                    cout << "Sorted A: [";
-                    for (int i = 0; i < Arr.size(); i++)
-                    {
-                        if (i == Arr.size() - 1)
-                            cout << Arr[i] << "]" << endl;
-                        else
-                            cout << Arr[i] << ","; // Add a comma after each element (except the last one
-                    }
+
+                    // if(isFloat == false)
+                    // {
+                    //     cout << "Sorted A: [";
+                    //     for (int i = 0; i < Arr.size(); i++)
+                    //     {
+                    //         if (i == Arr.size() - 1)
+                    //             cout << Arr[i] << "]" << endl;
+                    //         else
+                    //             cout << Arr[i] << ","; // Add a comma after each element (except the last one
+                    //     }
+                    // }
+                    // else
+                    // {
+                    //     cout << "Sorted A: [";
+                    //     for (int i = 0; i < Arr2.size(); i++)
+                    //     {
+                    //         if (i == Arr2.size() - 1)
+                    //             cout << Arr2[i] << "]" << endl;
+                    //         else
+                    //             cout << Arr2[i] << ","; // Add a comma after each element (except the last one
+                    //     }
+                    // }
                     cout << "\nSorting Time: \n"
-                         << micro.count() << " microseconds \n";
+                        << micro.count() << " microseconds \n";
                     cout << milli.count() << " milliseconds \n";
                     cout << seconds.count() << " seconds";
                     cout << "\n\n";
-                    Arr.clear(); // Clear the array for the next iteration
+                    if(isFloat == false)
+                        Arr.clear(); // Clear the array for the next iteration
+                    else
+                    {
+                        cout << "Clearing Arr2" << endl;
+                        Arr2.clear();
+                        cout << "size of Arr2 after clearing: " << Arr2.size() << endl;
+                    }
 
                     // Write the time to sort to the output file
                     /*

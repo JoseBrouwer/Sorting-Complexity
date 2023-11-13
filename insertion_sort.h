@@ -28,23 +28,22 @@ void insertion_sort(vector<int> &Arr)
 //for use in bucket_sort
 void list_insertion_sort(list<float> &Arr)
 {
-    //loop through nodes in list
+    // loop through nodes in list
     for (auto j = next(Arr.begin()); j != Arr.end(); ++j)
     {
-        //retrieve value of node and previous node
+        // retrieve value of node and previous node
         float item = *j;
         auto i = prev(j);
 
-        //move nodes to the right until the correct position is found
-        while (i != Arr.begin() && *i > item)
+        // move nodes to the right until the correct position is found
+        while (i != prev(Arr.begin()) && *i > item)
         {
-            auto next_i = i;
-            --next_i;
-            *next_i = *i;
-            --i;
+            auto prev_i = prev(i);
+            *j = *i; //set value of current node to value of previous node
+            j = i; //set current node to previous node
+            i = prev_i; //set previous node to previous of previous node
         }
-
-        *next(i) = item;
+        *j = item; //set value of current node to value of previous node
     }
 }
 
