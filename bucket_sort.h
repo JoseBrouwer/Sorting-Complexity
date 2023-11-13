@@ -19,6 +19,7 @@ void bucket_sort(vector<float> &Arr)
     // Insert elements into their respective buckets
     for(int i = 0; i < n; i++)
     {
+        cout << "Inserting " << Arr[i] << " into bucket " << floor(n * Arr[i]) << endl;
         int index = floor(n * Arr[i]);
         B[index].push_front(Arr[i]);
         //cout << "Inserted " << Arr[i] << " into bucket " << index << endl;

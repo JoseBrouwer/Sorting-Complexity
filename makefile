@@ -26,6 +26,7 @@ clean:
 clean_data:
 	for size in $(LIST_SIZES); do \
 		rm -f list$${size}.txt; \
+		rm -f float_list$${size}.txt; \
 	done
 
 .PHONY: all clean run_gen run_insert clean_data

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <cstdlib>
 #include <fstream>
 #include <string>
 
@@ -25,15 +26,19 @@ vector<int> generate_list(int size)
 vector<float> generate_floats(int size)
 {
     vector<float> Arr;
-    random_device rd;                // Create a random device
-    // static std::mt19937 gen(rd());
-    // std::uniform_int_distribution<int> dis(0, numeric_limits<int>::max());
-    default_random_engine gen(rd()); // Create a default random engine
-    uniform_real_distribution<float> dis(0, 1); // U[0, 1)
+    // random_device rd;                // Create a random device
+    // // static std::mt19937 gen(rd());
+    // // std::uniform_int_distribution<int> dis(0, numeric_limits<int>::max());
+    // default_random_engine gen(rd()); // Create a default random engine
+    // uniform_real_distribution<float> dis(0, 1); // U[0, 1)
 
     for (int i = 0; i < size; i++)
     {
-        Arr.push_back(dis(gen));
+        float number = static_cast<float>(rand());
+        number = number / static_cast<float>(RAND_MAX);
+        if (number >= 1.0)
+            number = 0.900000;
+        Arr.push_back(number);
     }
     return Arr;
 }
@@ -64,6 +69,8 @@ void write_floats(vector<float> Arr, int list_num)
     file << "A: ["; // A: [ Arr[0], Arr[1], Arr[2], ...
     for(int i = 0; i < Arr.size(); i++)
     {
+        if(Arr[i] >= 1.0)
+            Arr[i] = 0.900000;
         if(i == Arr.size() - 1)
             file << Arr[i] << "]" << endl;
         else
@@ -119,7 +126,7 @@ void create_floats()
 {
     int n10 = 100;  // 100 lists of size 10
     int n50 = 100;  // 100 lists of size 50
-    int n100 = 100; // 100 lists of size 100
+    int n100 = 50; // 50 lists of size 100
     int n500 = 50;  // 50 lists of size 500
     int n1000 = 10; // 50 lists of size 1000
     int n5000 = 10; // 10 lists of size 5000
