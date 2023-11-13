@@ -2,6 +2,7 @@
 #include <vector>
 #include <random>
 #include <cstdlib>
+#include <iomanip>
 #include <fstream>
 #include <string>
 
@@ -36,8 +37,7 @@ vector<float> generate_floats(int size)
     {
         float number = static_cast<float>(rand());
         number = number / static_cast<float>(RAND_MAX);
-        if (number >= 1.0)
-            number = 0.900000;
+        number = roundf(number * 10000) / 10000;
         Arr.push_back(number);
     }
     return Arr;
@@ -126,7 +126,7 @@ void create_floats()
 {
     int n10 = 100;  // 100 lists of size 10
     int n50 = 100;  // 100 lists of size 50
-    int n100 = 50; // 50 lists of size 100
+    int n100 = 100; // 50 lists of size 100
     int n500 = 50;  // 50 lists of size 500
     int n1000 = 10; // 50 lists of size 1000
     int n5000 = 10; // 10 lists of size 5000
