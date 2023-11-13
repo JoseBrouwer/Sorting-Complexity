@@ -116,23 +116,20 @@ int main()
 
         // SAMPLE: A: [1,2,3,4,5,6,7,8,9,10]
         // Skip characters until the start of the array
+        outputFile << "-------LIST: " << inputFileName << " SORTED-------" << endl;
         while (inputFile)
         {
-            //cout << "in while loop" << endl;
-            outputFile << "-------LIST: " << inputFileName << " SORTED-------" << endl;
             // Read the array elements one string at a time
             cout << "before reading num" << endl;
             while (inputFile >> num)
             {
-                // //cout << "num is: " << num << endl;
-                // if(num.length() == 2)
-                //     break;
-                //cout << "size of num: " << num.length() << endl;
+                if(num.length() == 2)
+                    break;
+                cout << "num is: " << num << endl;
                 string temp = ""; // to store the number
                 // if the file opened is not a float file use Arr
                 if(isFloat == false)
                 {
-                    cout << "Parsing Integers" << endl;
                     for (int i = 0; i < num.length(); i++)
                     {
                         // If the character is a digit, add it to temp
@@ -156,7 +153,6 @@ int main()
                 // if the file opened is a float file use Arr2
                 else
                 {
-                    cout << "Parsing Floats" << endl;
                     for (int i = 0; i < num.length(); i++)
                     {
                         // If the character is a digit, add it to temp
@@ -176,18 +172,8 @@ int main()
                             break;
                         }
                     }
-                    // cout << "size of Arr2: " << Arr2.size() << endl;
-                    // cout << "contents of Arr2: ";
-                    // for(int i = 0; i < Arr2.size(); i++)
-                    // {
-                    //     cout << Arr2[i] << ",";
-                    // }
-                    // cout << endl;
                 }
                 
-
-                // remove array printing and move timing into its own function
-                // Also move the outputFile writing to the function
                 if (Arr.size() > 0 || Arr2.size() > 0)
                 {
                     //for use in instances where work must be done before the timer starts
@@ -250,28 +236,28 @@ int main()
 
                     cout << "Array Sorted!" << endl;
 
-                    // if(isFloat == false)
-                    // {
-                    //     cout << "Sorted A: [";
-                    //     for (int i = 0; i < Arr.size(); i++)
-                    //     {
-                    //         if (i == Arr.size() - 1)
-                    //             cout << Arr[i] << "]" << endl;
-                    //         else
-                    //             cout << Arr[i] << ","; // Add a comma after each element (except the last one
-                    //     }
-                    // }
-                    // else
-                    // {
-                    //     cout << "Sorted A: [";
-                    //     for (int i = 0; i < Arr2.size(); i++)
-                    //     {
-                    //         if (i == Arr2.size() - 1)
-                    //             cout << Arr2[i] << "]" << endl;
-                    //         else
-                    //             cout << Arr2[i] << ","; // Add a comma after each element (except the last one
-                    //     }
-                    // }
+                    if(isFloat == false)
+                    {
+                        cout << "Sorted A: [";
+                        for (int i = 0; i < Arr.size(); i++)
+                        {
+                            if (i == Arr.size() - 1)
+                                cout << Arr[i] << "]" << endl;
+                            else
+                                cout << Arr[i] << ","; // Add a comma after each element (except the last one
+                        }
+                    }
+                    else
+                    {
+                        cout << "Sorted A: [";
+                        for (int i = 0; i < Arr2.size(); i++)
+                        {
+                            if (i == Arr2.size() - 1)
+                                cout << Arr2[i] << "]" << endl;
+                            else
+                                cout << Arr2[i] << ","; // Add a comma after each element (except the last one
+                        }
+                    }
                     cout << "\nSorting Time: \n"
                         << micro.count() << " microseconds \n";
                     cout << milli.count() << " milliseconds \n";
