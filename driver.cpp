@@ -34,6 +34,10 @@ int main()
         string outputFileName;
         string sortingName;
         bool isFloat = false;
+        // int sortingCount = 0; // used to calculate avg times for alg w/ multiple arrays
+        // std::chrono::time_point<std::chrono::high_resolution_clock> avg_micro;
+        // std::chrono::time_point<std::chrono::high_resolution_clock> avg_milli;
+        // std::chrono::time_point<std::chrono::high_resolution_clock> avg_seconds;
 
         cout << "Enter the file name to sort (type 'quit' to exit / type 'help' for guidance): ";
         cin >> inputFileName;
@@ -181,30 +185,35 @@ int main()
                     std::chrono::time_point<std::chrono::high_resolution_clock> temp;
                     if (sortingName == "insertion_sort")
                     {
+                        //sortingCount++;
                         auto start = chrono::high_resolution_clock::now(); // Start the timer
                         insertion_sort(Arr); // Sort the array using insertion sort
                         temp = start;
                     }
                     else if(sortingName == "merge_sort")
                     {
+                        //sortingCount++;
                         auto start = chrono::high_resolution_clock::now(); // Start the timer
                         merge_sort(Arr, 0, Arr.size()-1); //merge_sort(Arr, p, r);  // Sort the array using merge sort
                         temp = start;
                     }
                     else if(sortingName == "heap_sort")
                     {
+                        //sortingCount++;
                         auto start = chrono::high_resolution_clock::now(); // Start the timer
                         heap_sort(Arr); // Sort the array using heap sort
                         temp = start;
                     }
                     else if(sortingName == "quick_sort")
                     {
+                        //sortingCount++;
                         auto start = chrono::high_resolution_clock::now(); // Start the timer
                         quick_sort(Arr, 0, Arr.size()-1); // Sort the array using quick sort
                         temp = start;
                     }
                     else if(sortingName == "counting_sort")
                     {
+                        //sortingCount++;
                         int max = get_max(Arr);
                         auto start = chrono::high_resolution_clock::now(); // Start the timer
                         counting_sort(Arr, max); // Sort the array using counting sort
@@ -212,6 +221,7 @@ int main()
                     }
                     else if(sortingName == "radix_sort")
                     {
+                        //sortingCount++;
                         auto start = chrono::high_resolution_clock::now(); // Start the timer
                         radix_sort(Arr); // Sort the array using radix sort
                         temp = start;
@@ -219,6 +229,7 @@ int main()
                     //chose a float array text file
                     else if(sortingName == "bucket_sort" && isFloat == true)
                     {
+                        //sortingCount++;
                         auto start = chrono::high_resolution_clock::now(); // Start the timer
                         bucket_sort(Arr2); // Sort the array using bucket sort
                         temp = start;
@@ -233,6 +244,10 @@ int main()
                     auto micro = chrono::duration_cast<chrono::microseconds>(stop - temp);
                     auto milli = chrono::duration_cast<chrono::milliseconds>(stop - temp);
                     auto seconds = chrono::duration_cast<chrono::seconds>(stop - temp);
+
+                    // avg_micro += micro;
+                    // avg_milli += milli;
+                    // avg_seconds += seconds;
 
                     cout << "Array Sorted!" << endl;
 
@@ -291,6 +306,9 @@ int main()
                 }
             }
         }
+
+        // Write the average time to sort to the output file
+        //outputFile << "Average Time: \n\t" << static_cast<int>(avg_micro) / sortingCount << " microseconds \n";
         // Close the input & output file
         inputFile.close();
         outputFile.close();
