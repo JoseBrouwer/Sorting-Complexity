@@ -79,7 +79,7 @@ n
 list1000.txt
 quick_sort
 n
-list5quick_sort000.txt
+list5000.txt
 quick_sort
 n
 list10000.txt
@@ -187,7 +187,7 @@ n
 float_list50000.txt
 bucket_sort
 n
-float_list100000.tx
+float_list100000.txt
 bucket_sort
 n
 float_list500000.txt
