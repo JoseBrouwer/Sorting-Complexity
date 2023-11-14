@@ -12,7 +12,7 @@
 - ### The `driver.cpp` program includes the headers and makes calls to the respective sorting function when indicated by the user.
   - The algorithm is timed using the chrono library from the C++ STL.
   - The timed results are outputted into a text file named as follows`sortingName_times.txt`.
-- ### Running `plotting.py` in the same directory as the files will ask for some attributes of the graph.
+- ### Running `plotting.py` in the same directory as the files will ask for some attributes of the graph (on the terminal).
   - Input the time metric (0 for microseconds, 1 for milliseconds, 2 for seconds) you want to view a graph for.
   - Determine whether or not you want to view insertion_sort along with all the other algorithms.
     - Insertion sort overshadows all of the other times making them stay at 0.0.
@@ -45,11 +45,22 @@
 2. `make run_gen`
 3.  `make driver`
 4.  `make run_driver`
+  -  `make run_driver` uses the `user_input.txt` to iterate through every input the user would have to make to test every file on every sorting algorithm other than `insertion_sort`. Because `insertion_sort` takes anywhere from 21 - 35 minutes to complete, it would be impractical to test it along with the other algorithms. The other algorithms take seconds to iterate through all the files. To test insertion sort you can run `make run_insert` or `./driver < insert_input.txt`. 
 5.  `make run_plot`
+  - To run the Python program please make sure to have `matplotlib` installed on your system's version of Python.
+  - Matplotlib can be downloaded as follows: `pip install matplotlib`
 
 # Note on List Generation On Linprog
 
-TLDR: `list_generation` on linprog rarely gets time on the CPU and therefore takes forever to complete. Please, use the provided lists as suggested by Dr.Mascagni.
+**TLDR**: `list_generation` on linprog rarely gets time on the CPU and therefore takes forever to complete. Please, use the provided lists as suggested by Dr.Mascagni.
 
-Linprog takes a ridiculous amount of time to complete running the `list_generator` executable. At first, I thought it may be due to a library I was using. But after using the `htop` command and filtering by _"./list_generator"_ I observed the program doing nothing. The CPU had not yet granted the program its turn on the CPU schedule. If you do this as well you can observe the same behavior, where the program is only granted a millisecond or two at a time in intervals of multiple minutes. Because of this, the `list_generator` will take forever to complete its process. I tried to use different methods of generating the lists just in case the libraries/functions I was using were the root of the problem. This did not improve the problem. Please, use the lists provided on the `.tar` file. 
+Linprog takes a ridiculous amount of time to complete running the `list_generator` executable. If you wait it will finish ... Eventually. At first, I thought it may be due to a library I was using. But after using the `htop` command and filtering by _"./list_generator"_ I observed the program doing nothing. The CPU had not yet granted the program its turn on the CPU schedule. If you do this as well you can observe the same behavior, where the program is only granted a millisecond or two at a time in intervals of multiple minutes. Because of this, the `list_generator` will take forever to complete its process. I tried to use different methods of generating the lists just in case the libraries/functions I was using were the root of the problem. This did not improve the problem. Please, use the lists provided on the `.tar` file. 
+
+The file was tested on a variety of environments other than linprog. `list_generator` runs without any issues on Windows 10, a VM running Ubuntu 22.04, and WSL2 running Ubuntu 20.04. 
+
+## Million Item Sorting with Insertion Sort on Linprog
+You may encounter some unexpected behavior when testing `insertion_sort` on `list1000000.txt`. Since sorting this list takes over 20 minutes to complete, it may seem like linprog _"hangs"_ after finishing its sorting. This can again be observed using the `htop` command and filtering by `./driver` you will see how long the program has been running and after 21-35 minutes you will see the timer stop counting yet the program has not returned the Sorting Time. This can be due to a broken pipe (from inactivity). If you haven't been disconnected, pressing enter on the terminal a couple of times after the timer on `htop` has stopped will update the terminal returning the sorting time. 
+
+- This issue does not happen every time.
+- This issue was not observed on any of the other three aforementioned environments used for testing. 
 
