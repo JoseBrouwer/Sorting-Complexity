@@ -14,7 +14,7 @@ list_generator: list_generator.cpp
 driver: driver.cpp insertion_sort.h merge_sort.h heap_sort.h quick_sort.h counting_sort.h radix_sort.h bucket_sort.h
 	$(CXX) $(CXXFLAGS) -o driver driver.cpp
 
-run_gen: list_generator
+run_gen: clean_data list_generator
 	./list_generator
 
 run_driver: driver
