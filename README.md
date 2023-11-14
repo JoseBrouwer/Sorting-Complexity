@@ -50,6 +50,8 @@
 
 **run_gen**: Runs the `list_generator` executable.
 
+_**IMPORTANT**_: The tar file already includes sample lists. Running `make run_gen` will delete the provided lists and create new ones. If running on linprog I suggest against running this command. 
+
 **run_driver**: Runs the `driver` executable with input from `user_input.txt`.
 
 **run_plot**: Plots the data from running `driver.cpp` by running `plotting.py`
