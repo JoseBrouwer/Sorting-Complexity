@@ -3,6 +3,7 @@ CXXFLAGS = -std=c++11
 
 # List of list sizes
 LIST_SIZES = 10 50 100 500 1000 5000 10000 50000 100000 500000 1000000
+ALGORITHMS = insertion_sort merge_sort heap_sort quick_sort counting_sort radix_sort bucket_sort
 
 # Targets
 all: list_generator driver
@@ -19,6 +20,9 @@ run_gen: list_generator
 run_driver: driver
 	./driver < user_input.txt
 
+run_plot: plotting.py
+	python3 plotting.py
+
 clean:
 	rm -f list_generator
 	rm -f driver
@@ -27,6 +31,11 @@ clean_data:
 	for size in $(LIST_SIZES); do \
 		rm -f list$${size}.txt; \
 		rm -f float_list$${size}.txt; \
+	done
+
+clean_results:
+	for size in $(ALGORITHMS); do \
+		rm -f $${size}_times.txt; \
 	done
 
 .PHONY: all clean run_gen run_insert clean_data
