@@ -1,13 +1,33 @@
 # Sorting Algorithm Analysis with C++ and Python
-- ## Complexity Analysis of Sorting Algorithms:
-- Insertion Sort
-- Merge Sort
-- Quick Sort
-- Heap Sort
-- Counting Sort
-- Bucket Sort
-- Radix Sort
-- ## How it Works:
+## Repository Contents
+  - ### Sorting Implementations
+    - insertion_sort.h
+    - merge_sort.h
+    - heap_sort.h
+    - quick_sort.h
+    - counting_sort.h
+    - radix_sort.h
+    - bucket_sort.h
+  - ### List Generation, Driver and Makefile
+    - list_generator.cpp
+    - driver.cpp
+    - Makefile
+  - ### Input
+    - user_input.txt
+    - insert_input.txt
+    - list{n}.txt
+    - float_list{n}.txt
+      - where n is 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000
+  - ### Plot
+    - plotting.py
+
+## Input File Format
+- The list{n}.txt and float_list{n}.txt files contain arrays of random values in the range U[0, 2^16) and U[0, 1) respectively. 
+  - The array format is `A: [rand1,rand2,...,n-1,n]`
+- The input.txt files contain the user's input if the user wants to test all list sizes on each algorithm.
+  - For reasons explained below, the insertion_sort input is separate from the other algorithms and has its own input file.
+
+## How it Works
 - **Each algorithm is implemented in a header file.**
 - ### The `driver.cpp` program includes the headers and makes calls to the respective sorting function when indicated by the user.
   - The algorithm is timed using the chrono library from the C++ STL.
@@ -21,7 +41,7 @@
     - 1 = list10.txt, 2 = list50.txt, ..., 10 = list500000.txt, 11 = list1000000.txt.
     - The plot will then display lists[0 - i)
 
-# Makefile Targets
+## Makefile Targets
 **all**: Builds both `list_generator` and `driver`.
 
 **list_generator**: Compiles `list_generator.cpp` to create the `list_generator` executable.
@@ -40,17 +60,31 @@
 
 **clean_results**: Removes generated time data files (`sortingName_times*.txt`).
 
-# Make Order
-1. `make`
-2. `make run_gen`
-3.  `make driver`
-4.  `make run_driver`
-  -  `make run_driver` uses the `user_input.txt` to iterate through every input the user would have to make to test every file on every sorting algorithm other than `insertion_sort`. Because `insertion_sort` takes anywhere from 21 - 35 minutes to complete, it would be impractical to test it along with the other algorithms. The other algorithms take seconds to iterate through all the files. To test insertion sort you can run `make run_insert` or `./driver < insert_input.txt`. 
-5.  `make run_plot`
+## Make Order
+```
+make
+make run_gen
+make driver
+make run_driver
+```
+  -  `make run_driver` uses the `user_input.txt` to iterate through every input the user would have to make to test every file on every sorting algorithm other than `insertion_sort`. Because `insertion_sort` takes anywhere from 21 - 35 minutes to complete, it would be impractical to test it along with the other algorithms. The other algorithms take seconds to iterate through all the files. To test insertion sort you can run:
+```
+make run_insert
+```
+_**or**_
+```
+./driver < insert_input.txt
+```
+```
+make run_plot
+```
   - To run the Python program please make sure to have `matplotlib` installed on your system's version of Python.
-  - Matplotlib can be downloaded as follows: `pip install matplotlib`
+  - Matplotlib can be downloaded as follows:
+```
+pip install matplotlib
+```
 
-# Note on List Generation On Linprog
+## Note on List Generation On Linprog
 
 **TLDR**: `list_generation` on linprog rarely gets time on the CPU and therefore takes forever to complete. Please, use the provided lists as suggested by Dr.Mascagni.
 
