@@ -33,11 +33,9 @@ int main()
         string inputFileName;
         string outputFileName;
         string sortingName;
+        string displayChoice;
         bool isFloat = false;
-        // int sortingCount = 0; // used to calculate avg times for alg w/ multiple arrays
-        // std::chrono::time_point<std::chrono::high_resolution_clock> avg_micro;
-        // std::chrono::time_point<std::chrono::high_resolution_clock> avg_milli;
-        // std::chrono::time_point<std::chrono::high_resolution_clock> avg_seconds;
+        bool display = false;
 
         cout << "Enter the file name to sort (type 'quit' to exit / type 'help' for guidance): ";
         cin >> inputFileName;
@@ -104,6 +102,20 @@ int main()
             continue; // Skip the rest of the loop and prompt for a new file
         }
 
+        cout << "Display sorted array? (y/n): ";
+        cin >> displayChoice;
+        cout << endl;
+        while(displayChoice != "y" && displayChoice != "n")
+        {
+            cout << "Invalid choice. Please enter 'y' or 'n': ";
+            cin >> displayChoice;
+            cout << endl;
+        }
+        if(displayChoice == "y")
+            display = true;
+        else
+            display = false;
+
         // Determine the output file name based on the selected sorting algorithm
         outputFileName = sortingName + "_times.txt";
         ofstream outputFile(outputFileName, ios::app);
@@ -124,12 +136,11 @@ int main()
         while (inputFile)
         {
             // Read the array elements one string at a time
-            cout << "before reading num" << endl;
             while (inputFile >> num)
             {
                 if(num.length() == 2)
                     break;
-                cout << "num is: " << num << endl;
+                //cout << "num is: " << num << endl;
                 string temp = ""; // to store the number
                 // if the file opened is not a float file use Arr
                 if(isFloat == false)
@@ -245,56 +256,44 @@ int main()
                     auto milli = chrono::duration_cast<chrono::milliseconds>(stop - temp);
                     auto seconds = chrono::duration_cast<chrono::seconds>(stop - temp);
 
-                    // avg_micro += micro;
-                    // avg_milli += milli;
-                    // avg_seconds += seconds;
+                    cout << "Array " << array_num << " Sorted!" << endl;
 
-                    cout << "Array Sorted!" << endl;
-
-                    if(isFloat == false)
+                    if(display == true)
                     {
-                        cout << "Sorted A: [";
-                        for (int i = 0; i < Arr.size(); i++)
+                        if(isFloat == false)
                         {
-                            if (i == Arr.size() - 1)
-                                cout << Arr[i] << "]" << endl;
-                            else
-                                cout << Arr[i] << ","; // Add a comma after each element (except the last one
+                            cout << "Sorted A: [";
+                            for (int i = 0; i < Arr.size(); i++)
+                            {
+                                if (i == Arr.size() - 1)
+                                    cout << Arr[i] << "]" << endl;
+                                else
+                                    cout << Arr[i] << ","; // Add a comma after each element (except the last one)
+                            }
+                        }
+                        else
+                        {
+                            cout << "Sorted A: [";
+                            for (int i = 0; i < Arr2.size(); i++)
+                            {
+                                if (i == Arr2.size() - 1)
+                                    cout << Arr2[i] << "]" << endl;
+                                else
+                                    cout << Arr2[i] << ","; // Add a comma after each element (except the last one)
+                            }
                         }
                     }
-                    else
-                    {
-                        cout << "Sorted A: [";
-                        for (int i = 0; i < Arr2.size(); i++)
-                        {
-                            if (i == Arr2.size() - 1)
-                                cout << Arr2[i] << "]" << endl;
-                            else
-                                cout << Arr2[i] << ","; // Add a comma after each element (except the last one
-                        }
-                    }
+
                     cout << "\nSorting Time: \n"
                         << micro.count() << " microseconds \n";
                     cout << milli.count() << " milliseconds \n";
                     cout << seconds.count() << " seconds";
                     cout << "\n\n";
+
                     if(isFloat == false)
                         Arr.clear(); // Clear the array for the next iteration
                     else
-                    {
-                        cout << "Clearing Arr2" << endl;
                         Arr2.clear();
-                        cout << "size of Arr2 after clearing: " << Arr2.size() << endl;
-                    }
-
-                    // Write the time to sort to the output file
-                    /*
-                    Array 0:
-                    Sorting Time:
-                        0.000001 microseconds
-                        0.000001 milliseconds
-                        0.000001 seconds
-                    */
 
                     outputFile << "Array " << array_num << ": " << endl;
                     outputFile << "Sorting Time: \n\t" << micro.count() << " microseconds \n";
@@ -307,8 +306,6 @@ int main()
             }
         }
 
-        // Write the average time to sort to the output file
-        //outputFile << "Average Time: \n\t" << static_cast<int>(avg_micro) / sortingCount << " microseconds \n";
         // Close the input & output file
         inputFile.close();
         outputFile.close();
