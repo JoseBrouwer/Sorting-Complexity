@@ -1,12 +1,17 @@
 import matplotlib.pyplot as plt
-
-# import matplotlib as mpl
-import numpy as np
 import re
 
 
 # Function to extract sorting times from the output file
 def extract_sorting_times(file_path):
+    """
+    This function parses the sorting time text files
+    using regular expressions and storing the results
+    of each array as a tuple of microseconds, milliseconds
+    and seconds
+    :param file_path: The file to extract data from
+    :return: array of tuples for each list
+    """
     # 11 different list sizes, stored in order [0] = list10.txt, [1] = list50.txt, etc.
     file_path_times = []
     with open(file_path, "r") as file:
@@ -87,10 +92,7 @@ def extract_sorting_times(file_path):
     return file_path_times
 
 
-import matplotlib.pyplot as plt
-
-
-def plot_average_times(file_path_times):
+def plot_average_times(file_path_times, time_metric, max_list_size):
     labels = [
         "list10",
         "list50",
@@ -103,43 +105,74 @@ def plot_average_times(file_path_times):
         "list100000",
         "list500000",
         "list1000000",
-    ]
+    ][:max_list_size]
 
-    # Extract microseconds, milliseconds, and seconds from the tuples
-    avg_microseconds = [t[0] for t in file_path_times]
-    avg_milliseconds = [t[1] for t in file_path_times]
-    avg_seconds = [t[2] for t in file_path_times]
+    plt.figure(figsize=(12, 10))
+    for algorithm, times in file_path_times.items():
+        avg_times = [t[time_metric] for t in times][:max_list_size]
+        plt.plot(labels, avg_times, marker="o", label=algorithm.capitalize())
 
-    # Plotting
-    plt.figure(figsize=(10, 6))
-    plt.plot(labels, avg_microseconds, marker="o", label="Microseconds")
-    plt.plot(labels, avg_milliseconds, marker="o", label="Milliseconds")
-    plt.plot(labels, avg_seconds, marker="o", label="Seconds")
+    if time_metric == 0:
+        time_metric_str = "microseconds"
+    elif time_metric == 1:
+        time_metric_str = "milliseconds"
+    else:
+        time_metric_str = "seconds"
 
-    plt.title("Average Sorting Times")
+    plt.title(f"Average Sorting Times ({time_metric_str.capitalize()})")
     plt.xlabel("List Size")
-    plt.ylabel("Time")
+    plt.ylabel(f"Time ({time_metric_str.capitalize()})")
     plt.legend()
     plt.grid(True)
     plt.show()
 
 
-if __name__ == "__main__":
-    insertion_sort = extract_sorting_times("insertion_sort_times.txt")
-    merge_sort = extract_sorting_times("merge_sort_times.txt")
-    heap_sort = extract_sorting_times("heap_sort_times.txt")
-    quick_sort = extract_sorting_times("quick_sort_times.txt")
-    counting_sort = extract_sorting_times("counting_sort_times.txt")
-    radix_sort = extract_sorting_times("radix_sort_times.txt")
-    bucket_sort = extract_sorting_times("bucket_sort_times.txt")
-    print("Insertion Sort Times: ", insertion_sort, "\n")
-    print("Merge Sort Times: ", merge_sort, "\n")
-    print("Heap Sort Times: ", heap_sort, "\n")
-    print("Quick Sort Times: ", quick_sort, "\n")
-    print("Counting Sort Times: ", counting_sort, "\n")
-    print("Radix Sort Times: ", radix_sort, "\n")
-    print("Bucket Sort Times: ", bucket_sort, "\n")
+def on_close(event):
+    plt.close()
 
-    # Plotting
-    plot_times = insertion_sort
-    plot_average_times(plot_times)
+
+if __name__ == "__main__":
+    algorithms = [
+        "insertion_sort",
+        "merge_sort",
+        "heap_sort",
+        "quick_sort",
+        "counting_sort",
+        "radix_sort",
+        "bucket_sort",
+    ]
+
+    algorithm_times = {}
+    for algorithm in algorithms:
+        times = extract_sorting_times(f"{algorithm}_times.txt")
+        algorithm_times[algorithm] = times
+
+    time_metric = input(
+        "Enter the time metric (microseconds(0), milliseconds(1), seconds(2)): "
+    )
+    while time_metric not in ["0", "1", "2"]:
+        print("Invalid time metric. Please enter one of: 0, 1, 2")
+        time_metric = input(
+            "Enter the time metric (microseconds(0), milliseconds(1), seconds(2)): "
+        )
+    time_metric = int(time_metric)
+
+    insertion = input("Display insertion sort? (y/n): ")
+    while insertion not in ["y", "n"]:
+        print("Invalid input. Please enter one of: y, n")
+        insertion = input("Display insertion sort? (y/n): ")
+    if insertion == "n":
+        del algorithm_times["insertion_sort"]
+
+    max_list_size = int(input("Enter the maximum list size to display: "))
+    while max_list_size < 1 or max_list_size > 11:
+        print("Invalid list size. Please enter a value between 1 and 11.")
+        max_list_size = int(input("Enter the maximum list size to display: "))
+
+    display = True
+    while display:
+        plot_average_times(algorithm_times, time_metric, max_list_size)
+        fig = plt.gcf()
+        if display:
+            fig.canvas.mpl_connect("close_event", on_close("close_event"))
+            display = False
